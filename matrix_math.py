@@ -1,3 +1,5 @@
+from functools import reduce
+
 class ShapeException(Exception):
     pass
 
@@ -11,12 +13,26 @@ def dot(vector_1, vector_2):
     return reduce(lambda x, y: x+y, new_vector)
 
 
-def magnitude():
-    pass
+def magnitude(vector):
+    scalar = 0
+    vector_len = len(vector)
+    for spot in range(0, vector_len):
+        scalar += (vector[spot] **2)
+    return (scalar **(1/2))
 
 
-def shape():
-    pass
+def shape(vertrices):
+    length = []
+    column = []
+    length.append(len(vertrices))
+    for list in vertrices:
+        try:
+            column = (len(list))
+        except:
+            continue
+    if column != []:
+        length.append(column)
+    return tuple(length)
 
 
 def vector_add(vector_1, vector_2):
@@ -37,8 +53,16 @@ def vector_sub(vector_1, vector_2):
     return new_vector
 
 
-def vector_sum():
-    pass
+def vector_sum(*vectors):
+    vec_len = len(vectors[0])
+    posi = 0
+    new_vec = []
+    for pos in range(0, vec_len):
+        new_number = 0
+        for vector in vectors:
+            new_number += vector[pos]
+        new_vec.append(new_number)
+    return new_vec
 
 
 def vector_multiply(vector_1, scalar):
