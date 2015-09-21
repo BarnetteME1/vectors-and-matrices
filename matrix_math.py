@@ -101,9 +101,34 @@ def matrix_scalar_multiply(matrix, scalar):
     return new_matrix
 
 
-def matrix_vector_multiply():
-    pass
+def matrix_vector_multiply(matrix, vector):
+    len_vec = len(vector)
+    new_vec = []
+    for row in matrix:
+        number = 0
+        for pos in range(0,len_vec):
+            number += (vector[pos] * row[pos])
+        new_vec.append(number)
+    return new_vec
 
 
-def matrix_matrix_multiply():
-    pass
+def matrix_matrix_multiply(matrix_1, matrix_2):
+    new_matrix = []
+    len_m2_row = len(matrix_2[0])
+    len_m2_col = len(matrix_2)
+    len_m1_row = len(matrix_1[0])
+    len_m1_col = len(matrix_1)
+    new_m2 = []
+    for pos2 in range(len_m2_row):
+        new_m2_row = []
+        new_m2_row += matrix_col(matrix_2, pos2)
+        new_m2.append(new_m2_row)
+    for posit in range(0, len_m1_col):
+        new_row = []
+        for posi in range(0,len_m2_row):
+            new_num = 0
+            for pos in range(0, len_m1_row):
+                new_num += (matrix_1[posit][pos] * new_m2[posi][pos])
+            new_row.append(new_num)
+        new_matrix.append(new_row)
+    return new_matrix
