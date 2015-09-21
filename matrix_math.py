@@ -67,26 +67,31 @@ def vector_sum(*vectors):
 
 def vector_multiply(vector_1, scalar):
     new_vector = []
-    if shape_exception_vxv(vector_1, vector_2) == True:
-        vec_len = range(0,len(vector_1))
-        for pos in vec_len:
-            new_vector.append(vector_1[pos] - vector_2[pos])
+    vec_len = range(0,len(vector_1))
+    for pos in vec_len:
+        new_vector.append(vector_1[pos] *scalar)
     return new_vector
 
 
-def vector_mean():
-    pass
+def vector_mean(*vectors):
+    new_vector = vector_sum(*vectors)
+    len_vectors = len(vectors)
+    multi_vector = vector_multiply(new_vector, (1/len_vectors))
+    return multi_vector
 
 
-def matrix_row(matrix):
-    pass
+def matrix_row(matrix, num):
+    return matrix[num]
 
 
-def matrix_col():
-    pass
+def matrix_col(matrix, num):
+    col = []
+    for line in matrix:
+        col.append(line[num])
+    return col
 
 
-def matrix_vector_multiply(matrix, scalar):
+def matrix_scalar_multiply(matrix, scalar):
     new_matrix = []
     for row in matrix:
         new_row = 0
