@@ -1,34 +1,12 @@
 from functools import reduce
 
-class ShapeException(Exception):
-    pass
-
-
-def shape_exception_vxv(vector_1, vector_2):
-    return len(vector_1) == len(vector_2)
-
-
-def shape_exception_mxv(matrix, vector):
-    return len(matrix) == len(vector)
-
-
-def shape_exception_mxm(matrix_1, matrix_2):
-    for line in matrix_2:
-        if len(line) == len(matrix_1):
-            continue
-        else:
-            return False
-    return True
-
-
 def dot(vector_1, vector_2):
-    if shape_exception_vxv == False:
-        raise
     new_vector = []
-    if shape_exception_vxv(vector_1, vector_2) == True:
-        vec_len = range(0,len(vector_1))
-        for pos in vec_len:
-            new_vector.append(vector_1[pos]*vector_2[pos])
+    if shape(vector_1) != shape(vector_2):
+        raise ShapeException()
+    vec_len = range(0,len(vector_1))
+    for pos in vec_len:
+        new_vector.append(vector_1[pos]*vector_2[pos])
     return reduce(lambda x, y: x+y, new_vector)
 
 
@@ -56,27 +34,32 @@ def shape(vertrices):
 
 def vector_add(vector_1, vector_2):
     new_vector = []
-    if shape_exception_vxv(vector_1, vector_2) == True:
-        vec_len = range(0,len(vector_1))
-        for pos in vec_len:
-            new_vector.append(vector_1[pos] + vector_2[pos])
+    if shape(vector_1) != shape(vector_2):
+        raise ShapeException()
+    vec_len = range(0,len(vector_1))
+    for pos in vec_len:
+        new_vector.append(vector_1[pos] + vector_2[pos])
     return new_vector
 
 
 def vector_sub(vector_1, vector_2):
     new_vector = []
-    if shape_exception_vxv(vector_1, vector_2) == True:
-        vec_len = range(0,len(vector_1))
-        for pos in vec_len:
-            new_vector.append(vector_1[pos] - vector_2[pos])
+    if shape(vector_1) != shape(vector_2):
+        raise ShapeException()
+    vec_len = range(0,len(vector_1))
+    for pos in vec_len:
+        new_vector.append(vector_1[pos] - vector_2[pos])
     return new_vector
 
 
 def vector_sum(*vectors):
-    vec_len = len(vectors[0])
+    vector_len = len(vectors)
+    for vect_num in range(0,vector_len-1):
+        if shape(vectors[vect_num]) != shape(vectors[vect_num+1]):
+            raise ShapeException()
     posi = 0
     new_vec = []
-    for pos in range(0, vec_len):
+    for pos in range(0, vector_len):
         new_number = 0
         for vector in vectors:
             new_number += vector[pos]
@@ -123,11 +106,14 @@ def matrix_scalar_multiply(matrix, scalar):
 def matrix_vector_multiply(matrix, vector):
     len_vec = len(vector)
     new_vec = []
-    for row in matrix:
-        number = 0
-        for pos in range(0,len_vec):
-            number += (vector[pos] * row[pos])
-        new_vec.append(number)
+    if shape(matrix)[0] != shape(vector)[0]:
+        raise ShapeException()
+    else:
+        for row in matrix:
+            number = 0
+            for pos in range(0,len_vec):
+                number += (vector[pos] * row[pos])
+            new_vec.append(number)
     return new_vec
 
 
@@ -138,16 +124,19 @@ def matrix_matrix_multiply(matrix_1, matrix_2):
     len_m1_row = len(matrix_1[0])
     len_m1_col = len(matrix_1)
     new_m2 = []
-    for pos2 in range(len_m2_row):
-        new_m2_row = []
-        new_m2_row += matrix_col(matrix_2, pos2)
-        new_m2.append(new_m2_row)
-    for posit in range(0, len_m1_col):
-        new_row = []
-        for posi in range(0,len_m2_row):
-            new_num = 0
-            for pos in range(0, len_m1_row):
-                new_num += (matrix_1[posit][pos] * new_m2[posi][pos])
-            new_row.append(new_num)
-        new_matrix.append(new_row)
+    if shape(matrix_1) != shape(matrix_2):
+        raise ShapeException()
+    else:
+        for pos2 in range(len_m2_row):
+            new_m2_row = []
+            new_m2_row += matrix_col(matrix_2, pos2)
+            new_m2.append(new_m2_row)
+        for posit in range(0, len_m1_col):
+            new_row = []
+            for posi in range(0,len_m2_row):
+                new_num = 0
+                for pos in range(0, len_m1_row):
+                    new_num += (matrix_1[posit][pos] * new_m2[posi][pos])
+                new_row.append(new_num)
+            new_matrix.append(new_row)
     return new_matrix
