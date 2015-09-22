@@ -1,5 +1,8 @@
 from functools import reduce
 
+class ShapeException(Exception):
+    pass
+
 def dot(vector_1, vector_2):
     new_vector = []
     if shape(vector_1) != shape(vector_2):
