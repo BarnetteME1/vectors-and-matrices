@@ -1,7 +1,9 @@
 from functools import reduce
 
+
 class ShapeException(Exception):
     pass
+
 
 def dot(vector_1, vector_2):
     new_vector = []
@@ -127,7 +129,7 @@ def matrix_matrix_multiply(matrix_1, matrix_2):
     len_m1_row = len(matrix_1[0])
     len_m1_col = len(matrix_1)
     new_m2 = []
-    if shape(matrix_1) != shape(matrix_2):
+    if shape(matrix_1)[1] != shape(matrix_2)[0]:
         raise ShapeException()
     else:
         for pos2 in range(len_m2_row):
