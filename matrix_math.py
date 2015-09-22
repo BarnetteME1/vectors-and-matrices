@@ -4,7 +4,26 @@ class ShapeException(Exception):
     pass
 
 
+def shape_exception_vxv(vector_1, vector_2):
+    return len(vector_1) == len(vector_2)
+
+
+def shape_exception_mxv(matrix, vector):
+    return len(matrix) == len(vector)
+
+
+def shape_exception_mxm(matrix_1, matrix_2):
+    for line in matrix_2:
+        if len(line) == len(matrix_1):
+            continue
+        else:
+            return False
+    return True
+
+
 def dot(vector_1, vector_2):
+    if shape_exception_vxv == False:
+        raise
     new_vector = []
     if shape_exception_vxv(vector_1, vector_2) == True:
         vec_len = range(0,len(vector_1))
